@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.TeachingStuff;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.Range;
  * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
  * class is instantiated on the Robot Controller and executed.
  *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * This particular OpMode just executes a Mechanum Drive Teleop for a fouro wheeled robot
  * It includes all the skeletal structure that all linear OpModes contain.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
@@ -23,40 +23,15 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="MechanumDrive", group="Linear Opmode")
 public class MechanumDrive extends LinearOpMode {
 
+    HardwareMap robot = new HardwareMap();
+
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor backLeft;
-    private DcMotor backRight;
-    private DcMotor frontRight;
-    private DcMotor frontLeft;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        /* Initialize the hardware variables. Note that the strings used here as parameters
-            to 'get' must correspond to the names assigned during the robot configuration
-            step (using the FTC Robot Controller app on the phone). */
-        frontLeft  = hardwareMap.get(DcMotor.class, "leftF");
-        frontRight = hardwareMap.get(DcMotor.class, "rightF");
-        backLeft = hardwareMap.get(DcMotor.class, "leftB");
-        backRight = hardwareMap.get(DcMotor.class, "rightB");
-
-
-        // Most robots need the motor on one side to be reversed to drive forward
-        // Reverse the motor that runs backwards when connected directly to the battery
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
-
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
