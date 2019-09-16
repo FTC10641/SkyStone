@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeachingStuff;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -35,9 +35,9 @@ public class MechanumDrive extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
+        /* Initialize the hardware variables. Note that the strings used here as parameters
+            to 'get' must correspond to the names assigned during the robot configuration
+            step (using the FTC Robot Controller app on the phone). */
         frontLeft  = hardwareMap.get(DcMotor.class, "leftF");
         frontRight = hardwareMap.get(DcMotor.class, "rightF");
         backLeft = hardwareMap.get(DcMotor.class, "leftB");
