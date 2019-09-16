@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode.TeachingStuff;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.teamcode.SubSystems.*;
 
 
 /**
@@ -23,7 +24,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="MechanumDrive", group="Linear Opmode")
 public class MechanumDrive extends LinearOpMode {
 
-    HardwareMap robot = new HardwareMap();
+    NewHardwareMap robot = new NewHardwareMap();
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -58,10 +59,10 @@ public class MechanumDrive extends LinearOpMode {
 
 
             // Send calculated power to wheels
-            frontLeft.setPower(frontLeftPower);
-            backLeft.setPower(backLeftPower);
-            frontRight.setPower(frontRightPower);
-            backRight.setPower(backRightPower);
+            robot.frontLeft.setPower(frontLeftPower);
+            robot.backLeft.setPower(backLeftPower);
+            robot.frontRight.setPower(frontRightPower);
+            robot.backRight.setPower(backRightPower);
 
 
             // Show the elapsed game time and wheel power.
