@@ -20,7 +20,7 @@ public class NewHardwareMap {
 
         //configing each motor to the actual motor on robot and in phone config, ya know?
         backRight = ahwMap.get(DcMotor.class, "rightB");
-        backLeft = ahwMap.get(DcMotor.class, "rightB");
+        backLeft = ahwMap.get(DcMotor.class, "leftB");
         frontRight = ahwMap.get(DcMotor.class, "rightF");
         frontLeft = ahwMap.get(DcMotor.class, "leftF");
 

@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.teamcode.SubSystems.*;
 
 
@@ -33,6 +34,8 @@ public class MechanumDrive extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        robot.init(hardwareMap);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -67,7 +70,8 @@ public class MechanumDrive extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", backLeftPower, frontLeftPower, frontRightPower, backRightPower);
+            telemetry.addData("Motors", "left (%.2f), right (%.2f)",
+                    backLeftPower, frontLeftPower, frontRightPower, backRightPower);
             telemetry.update();
         }
     }
