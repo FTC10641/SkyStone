@@ -4,28 +4,30 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.SubSystems.NewHardwareMap;
+import org.firstinspires.ftc.teamcode.SubSystems.*;
 
 @Autonomous (name = "FirstAuto")
 
-public abstract class FirstAuto extends OpMode {
+public class FirstAuto extends OpMode {
 
-    NewHardwareMap robot = new NewHardwareMap();
+    Motors motor = new Motors();
+    Actions act = new Actions();
+    Sensors sensor = new Sensors();
+    ElapsedTime time = new ElapsedTime();
 
     enum State {
         DForward
-
     }
 
     State driveState;
-    ElapsedTime time;
 
     @Override   // Game initialized
     public void init(){
-        robot.init(hardwareMap);
-        driveState = State.DForward;
+        motor.initMotors(hardwareMap);
+        act.initActions(hardwareMap);
+        sensor.initSensors(hardwareMap);
         time = new ElapsedTime();
-
+        driveState = State.DForward;
     }
 
     @Override   // Game start
@@ -38,8 +40,12 @@ public abstract class FirstAuto extends OpMode {
         switch (driveState) {
 
             case DForward:
-
-
+                act.DForward(1,10);
+                if (act.DriveDone(10)){
+                    time.reset();
+                    act.Kill();
+                }
+                break;
 
         }
 

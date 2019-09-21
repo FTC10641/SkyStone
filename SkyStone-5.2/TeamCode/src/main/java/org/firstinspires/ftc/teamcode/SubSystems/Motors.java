@@ -1,9 +1,13 @@
+/*
+This is where all of the robot's motors live and where we init them and declare the variables
+ */
+
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class NewHardwareMap {
+public class Motors {
 
     //setting up variables for each motor
     public DcMotor backRight;
@@ -14,7 +18,8 @@ public class NewHardwareMap {
     HardwareMap hwMap = null;
 
 
-    public void init(HardwareMap ahwMap) {
+
+    public void initMotors(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
 
