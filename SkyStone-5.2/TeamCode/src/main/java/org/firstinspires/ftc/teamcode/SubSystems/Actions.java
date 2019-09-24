@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Actions extends Motors{
 
-    public static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: Andy Mark Motor Encoder
-    public static final double DRIVE_GEAR_REDUCTION = 1.333333333333333;     // This is < 1.0 if geared UP
-    public static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    public static final double COUNTS_PER_MOTOR_REV = 537.6;
+    public static final double DRIVE_GEAR_REDUCTION = 1.333333333333333;
+    public static final double WHEEL_DIAMETER_INCHES = 4.0;
     public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
@@ -20,9 +20,9 @@ public class Actions extends Motors{
         hwMap = ahwMap;
     }
 
-        //    public static final double COUNTS_PER_MOTOR_REV =  360;    // eg: Andy Mark Motor Encoder
-//    public static final double DRIVE_GEAR_REDUCTION = 2;     // This is < 1.0 if geared UP
-//    public static final double WHEEL_DIAMETER_INCHES = 4;     // For figuring circumference
+        //    public static final double COUNTS_PER_MOTOR_REV =  360; //the counts per revolution of the encoder
+//    public static final double DRIVE_GEAR_REDUCTION = 2; //the gear ratio
+//    public static final double WHEEL_DIAMETER_INCHES = ;   //the diameter of the odometry wheel goes here
 //    public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
 //            (WHEEL_DIAMETER_INCHES * 3.1415);
 
@@ -55,8 +55,10 @@ public class Actions extends Motors{
                     (Math.abs(backLeft.getCurrentPosition() / COUNTS_PER_INCH) >= distance)
                     || (Math.abs(frontRight.getCurrentPosition() / COUNTS_PER_INCH) >= distance) ||
                     (Math.abs(backRight.getCurrentPosition() / COUNTS_PER_INCH) >= distance)
-            ) {
+            )
+            {
                 return (true);
-            } else return (false);
+            }
+            else return (false);
         }
     }
