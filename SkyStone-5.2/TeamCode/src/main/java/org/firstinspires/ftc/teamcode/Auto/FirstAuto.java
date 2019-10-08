@@ -40,6 +40,7 @@ public class FirstAuto extends OpMode {
         double CurrentTime = time.time();
         telemetry.addData("time", CurrentTime);
         double gyroangle;
+        telemetry.addLine("get ready for this to fail!!");
 
         switch (driveState) {
 
