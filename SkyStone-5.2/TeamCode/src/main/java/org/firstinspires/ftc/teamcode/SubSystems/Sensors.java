@@ -13,17 +13,17 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class Sensors extends Motors {
+public class Sensors extends Robot {
 
     public BNO055IMU imu;
 
-    public ColorSensor colorSensor = null;
-
-    public float hsvValues[] = {0F, 0F, 0F};
-
-    public final float values[] = hsvValues;
-
-    public final double SCALE_FACTOR = 255;
+//    public ColorSensor colorSensor = null;
+//
+//    public float hsvValues[] = {0F, 0F, 0F};
+//
+//    public final float values[] = hsvValues;
+//
+//    public final double SCALE_FACTOR = 255;
 
     public Orientation angles;
 
@@ -33,7 +33,7 @@ public class Sensors extends Motors {
     public void initSensors(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        colorSensor = ahwMap.get(ColorSensor.class, "colorS");
+        //colorSensor = ahwMap.get(ColorSensor.class, "colorS");
 
         imu = hwMap.get(BNO055IMU.class, "imu");
 
@@ -47,24 +47,25 @@ public class Sensors extends Motors {
         imu.initialize(parameters);
 
     }
-    public void ReadColor(){
-        // convert the RGB values to HSV values.
-        // multiply by the SCALE_FACTOR.
-        // then cast it back to int (SCALE_FACTOR is a double)
-        Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR),
-                (int) (colorSensor.green() * SCALE_FACTOR),
-                (int) (colorSensor.blue() * SCALE_FACTOR),
-                hsvValues);
-    }
-
-    public boolean red(){
-        if (hsvValues[0] >= 340 && hsvValues[0] <= 370 || hsvValues[0] >= 0 && hsvValues[0] <= 40){
-            return(true);}
-        else return(false);
-    }
-    public boolean blue(){
-        if (hsvValues[0] >= 190 && hsvValues[0] <= 300){
-            return(true);}
-        else return(false);
-    }
 }
+//    public void ReadColor(){
+//        // convert the RGB values to HSV values.
+//        // multiply by the SCALE_FACTOR.
+//        // then cast it back to int (SCALE_FACTOR is a double)
+//        Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR),
+//                (int) (colorSensor.green() * SCALE_FACTOR),
+//                (int) (colorSensor.blue() * SCALE_FACTOR),
+//                hsvValues);
+//    }
+//
+//    public boolean red(){
+//        if (hsvValues[0] >= 340 && hsvValues[0] <= 370 || hsvValues[0] >= 0 && hsvValues[0] <= 40){
+//            return(true);}
+//        else return(false);
+//    }
+//    public boolean blue(){
+//        if (hsvValues[0] >= 190 && hsvValues[0] <= 300){
+//            return(true);}
+//        else return(false);
+//    }
+//}

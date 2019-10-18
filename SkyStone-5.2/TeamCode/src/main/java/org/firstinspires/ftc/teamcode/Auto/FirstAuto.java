@@ -5,16 +5,18 @@ This should just make the robot Drive Forward 10 inches
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.SubSystems.*;
 
 @Autonomous (name = "FirstAuto")
+@Disabled
 
 public class FirstAuto extends OpMode {
 
-    Motors motor = new Motors();
+    Robot motor = new Robot();
     Actions act = new Actions();
     Sensors sensor = new Sensors();
     ElapsedTime time = new ElapsedTime();
@@ -27,7 +29,7 @@ public class FirstAuto extends OpMode {
 
     @Override   // Game initialized
     public void init(){
-        motor.initMotors(hardwareMap);
+        motor.initRobot(hardwareMap);
         act.initActions(hardwareMap);
         sensor.initSensors(hardwareMap);
         time = new ElapsedTime();
