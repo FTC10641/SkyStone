@@ -1,9 +1,5 @@
 /*
-    this is the java class for our TeleOp, it contains controls for:
-        driving with mechanum wheels
-        controls for 2 intake motors
-        moving a servo
-        reading color with a sensor
+    this is the java class for our TeleOp
  */
 
 package org.firstinspires.ftc.teamcode.TeleOp;
@@ -57,17 +53,19 @@ public class MechanumDrive extends LinearOpMode {
             gamepad 1 controls, includes:
             Intake
             the servo that is connected to the color sensor
+            Drive Train
+            Lift
              */
-            if (RightTrigger()) {
-                robot.rightIntake.setPower(-1);
-                robot.leftIntake.setPower(1);
-            } else if (LeftTrigger()) {
-                robot.rightIntake.setPower(1);
-                robot.leftIntake.setPower(-1);
-            } else {
-                robot.leftIntake.setPower(0);
-                robot.rightIntake.setPower(0);
-            }
+//            if (RightTrigger()) {
+//                robot.rightIntake.setPower(-1);
+//                robot.leftIntake.setPower(1);
+//            } else if (LeftTrigger()) {
+//                robot.rightIntake.setPower(1);
+//                robot.leftIntake.setPower(-1);
+//            } else {
+//                robot.leftIntake.setPower(0);
+//                robot.rightIntake.setPower(0);
+//            }
 
 //            if (gamepad1.y && !changed) {
 //                if (robot.sensorServo.getPosition() <= .3) {
@@ -80,7 +78,6 @@ public class MechanumDrive extends LinearOpMode {
 
 //            if (gamepad1.y) {
 //                robot.Up(1,10);
-//                telemetry.update();
 //            }
 //            else if (gamepad1.a){
 //                robot.Down(1,10);
@@ -91,7 +88,8 @@ public class MechanumDrive extends LinearOpMode {
 //            }
 
              /*
-            gamepad 2 controls
+            gamepad 2 controls, includes:
+            LED indicators
              */
 //             if (gamepad2.y){
 //                 robot.blinkinLedDriver.setPattern(humanIndicator1);
@@ -111,6 +109,8 @@ public class MechanumDrive extends LinearOpMode {
 //            }
 
             // Setup a variable for each drive wheel to save power level for telemetry
+            double rightIntakePower;
+            double leftIntakePower;
             double frontRightPower;
             double backRightPower;
             double frontLeftPower;
@@ -125,17 +125,24 @@ public class MechanumDrive extends LinearOpMode {
             backLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
             backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
             frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
+            rightIntakePower = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger,-1.0,1.0); //controls for the Intake motors
+            leftIntakePower = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger, -1.0, 1.0);
 
 
+            rightIntakePower = (float) scaleInput(rightIntakePower);
+            leftIntakePower = (float) scaleInput(leftIntakePower);
             frontLeftPower = (float) scaleInput(frontLeftPower);
             backLeftPower = (float) scaleInput(backLeftPower);
             frontRightPower = (float) scaleInput(frontRightPower);
             backRightPower =  (float) scaleInput(backRightPower);
-            // Send calculated power to wheels
+            // Send calculated power to wheels and intake motors
             robot.frontLeft.setPower(frontLeftPower);
             robot.backLeft.setPower(backLeftPower);
             robot.frontRight.setPower(frontRightPower);
             robot.backRight.setPower(backRightPower);
+            robot.rightIntake.setPower(rightIntakePower);
+            robot.leftIntake.setPower(leftIntakePower);
+            
 
 
             // Show the elapsed game time and wheel power.
@@ -180,13 +187,13 @@ public class MechanumDrive extends LinearOpMode {
     }
 
     //so trigger grazing doesn't activate the intake
-    boolean RightTrigger() {
-        if (gamepad1.right_trigger >= 0.1) {
-            return(true); }
-        else return(false); }
-
-    boolean LeftTrigger() {
-        if (gamepad1.left_trigger >= 0.1) {
-            return(true); }
-        else return(false); }
+//    boolean RightTrigger() {
+//        if (gamepad1.right_trigger >= 0.1) {
+//            return(true); }
+//        else return(false); }
+//
+//    boolean LeftTrigger() {
+//        if (gamepad1.left_trigger >= 0.1) {
+//            return(true); }
+//        else return(false); }
 }
