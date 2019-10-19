@@ -6,7 +6,7 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Actions extends Robot {
+public class Actions extends Motors{
 
     public static final double COUNTS_PER_MOTOR_REV = 537.6;
     public static final double DRIVE_GEAR_REDUCTION = 1.333333333333333;

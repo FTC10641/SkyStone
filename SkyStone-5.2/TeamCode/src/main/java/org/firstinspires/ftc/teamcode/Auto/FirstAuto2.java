@@ -1,18 +1,16 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.SubSystems.*;
 
 @Autonomous(name = "FirstAuto2")
-@Disabled
 
 public class FirstAuto2 extends OpMode {
 
-    Robot motor = new Robot();
+    Motors motor = new Motors();
 
     enum State {
 
@@ -25,7 +23,7 @@ public class FirstAuto2 extends OpMode {
 
     @Override
     public void init() {
-        motor.initRobot(hardwareMap);
+        motor.initMotors(hardwareMap);
         time = new ElapsedTime();
         DriveForward = State.DForward;
     }
