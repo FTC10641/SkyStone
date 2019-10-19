@@ -1,8 +1,4 @@
-/*
-    this is the java class for our TestCode
- */
-
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.TestCode;
 
 //import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,22 +9,19 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.SubSystems.*;
 
 
-@TeleOp(name="TeleOp", group="Linear Opmode")
-public class MechanumDrive extends LinearOpMode {
+@TeleOp(name="Testing", group="Linear Opmode")
+public class TestTele extends LinearOpMode {
 
     Robot robot = new Robot();
     Sensors sensors = new Sensors();
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private boolean changed = false;
+//    public int currentLiftPosition = robot.lift.getCurrentPosition();
+//    public int newPosition = 0;
+
 
     public float hsvValues[] = {0F, 0F, 0F};
-
-//    //LED Patterns
-//    RevBlinkinLedDriver.BlinkinPattern humanIndicator1;
-//    RevBlinkinLedDriver.BlinkinPattern off;
-
 
     @Override
     public void runOpMode() {
@@ -37,9 +30,6 @@ public class MechanumDrive extends LinearOpMode {
 
         robot.initRobot(hardwareMap);
         sensors.initSensors(hardwareMap);
-
-//        humanIndicator1 = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
-//        off = RevBlinkinLedDriver.BlinkinPattern.BLACK;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -56,59 +46,29 @@ public class MechanumDrive extends LinearOpMode {
             Drive Train
             Lift
              */
-//            if (RightTrigger()) {
-//                robot.rightIntake.setPower(-1);
-//                robot.leftIntake.setPower(1);
-//            } else if (LeftTrigger()) {
-//                robot.rightIntake.setPower(1);
-//                robot.leftIntake.setPower(-1);
-//            } else {
-//                robot.leftIntake.setPower(0);
-//                robot.rightIntake.setPower(0);
-//            }
 
-//            if (gamepad1.y && !changed) {
-//                if (robot.sensorServo.getPosition() <= .3) {
-//                    robot.sensorServo.setPosition(.85);
-//                } else{
-//                    robot.sensorServo.setPosition(.2);
-//                }
-//                changed = true;
-//            } else if (!gamepad1.y) changed = false;
-
-            if (gamepad1.y) {
-                robot.Up(1,10);
+            if (gamepad1.dpad_up){
+                robot.lift.setPower(1);
             }
-            else if (gamepad1.a){
-                robot.Down(1,10);
+            else if (gamepad1.dpad_down){
+                robot.lift.setPower(-1);
             }
             else {
                 robot.lift.setPower(0);
-                robot.Kill();
             }
+
+//            if (gamepad1.dpad_up){
+//                newPosition = currentLiftPosition + 5;
+//                robot.lift.setTargetPosition(newPosition);
+//            }
+//            else {
+//                robot.lift.setPower(0);
+//            }
 
              /*
             gamepad 2 controls, includes:
             LED indicators
              */
-//             if (gamepad2.y){
-//                 robot.blinkinLedDriver.setPattern(humanIndicator1);
-//                 telemetry.addLine("Bot Hungry Boi");
-//             }
-//             else {
-//                 robot.blinkinLedDriver.setPattern(off);
-//             }
-
-
-//            if (sensors.blue()){
-//                telemetry.addLine("bruh that's pretty blue");
-//            }
-//
-//            if (sensors.red()) {
-//                telemetry.addLine("really, red, that's pretty rad ");
-//            }
-
-            // Setup a variable for each drive wheel to save power level for telemetry
             double rightIntakePower;
             double leftIntakePower;
             double frontRightPower;
