@@ -67,25 +67,27 @@ public class MechanumDrive extends LinearOpMode {
 //                robot.rightIntake.setPower(0);
 //            }
 
-//            if (gamepad1.y && !changed) {
-//                if (robot.sensorServo.getPosition() <= .3) {
-//                    robot.sensorServo.setPosition(.85);
-//                } else{
-//                    robot.sensorServo.setPosition(.2);
-//                }
-//                changed = true;
-//            } else if (!gamepad1.y) changed = false;
-
-            if (gamepad1.y) {
-                robot.Up(1,10);
+            if (gamepad1.y && !changed) {
+                if (robot.sensorServo.getPosition() <= 1.1) {
+                    robot.sensorServo.setPosition(1);
+                } else{
+                    robot.sensorServo.setPosition(-1);
+                }
+                changed = true;
+            } else if (!gamepad1.y) {
+                changed = false;
             }
-            else if (gamepad1.a){
-                robot.Down(1,10);
-            }
-            else {
-                robot.lift.setPower(0);
-                robot.Kill();
-            }
+//
+//            if (gamepad1.y) {
+//                robot.Up(1,10);
+//            }
+//            else if (gamepad1.a){
+//                robot.Down(1,10);
+//            }
+//            else {
+//                robot.lift.setPower(0);
+//                robot.Kill();
+//            }
 
              /*
             gamepad 2 controls, includes:

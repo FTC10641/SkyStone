@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TestCode;
 //import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -17,8 +18,8 @@ public class TestTele extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-//    public int currentLiftPosition = robot.lift.getCurrentPosition();
-//    public int newPosition = 0;
+    public boolean changed = false;
+    public int liftHeight = 0;
 
 
     public float hsvValues[] = {0F, 0F, 0F};
@@ -31,12 +32,16 @@ public class TestTele extends LinearOpMode {
         robot.initRobot(hardwareMap);
         sensors.initSensors(hardwareMap);
 
+        robot.lift.setTargetPosition(0);
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
             //sensors.ReadColor();
 
             /*
@@ -47,23 +52,33 @@ public class TestTele extends LinearOpMode {
             Lift
              */
 
-            if (gamepad1.dpad_up){
-                robot.lift.setPower(1);
-            }
-            else if (gamepad1.dpad_down){
-                robot.lift.setPower(-1);
-            }
-            else {
-                robot.lift.setPower(0);
-            }
-
 //            if (gamepad1.dpad_up){
-//                newPosition = currentLiftPosition + 5;
-//                robot.lift.setTargetPosition(newPosition);
+//                robot.lift.setPower(1);
+//            }
+//            else if (gamepad1.dpad_down){
+//                robot.lift.setPower(-1);
 //            }
 //            else {
 //                robot.lift.setPower(0);
 //            }
+
+//            if (gamepad1.dpad_up){
+//                robot.lift.setTargetPosition(5);
+//            }
+//            else {
+//                robot.lift.setPower(0);
+//            }
+
+
+            if (gamepad1.dpad_up){
+                liftHeight++;
+            }
+            else if (gamepad1.dpad_down){
+                liftHeight--;
+            }
+            if (!(robot.lift.getCurrentPosition() == liftHeight*(5*robot.COUNTS_PER_INCH))){
+                robot.lift.setTargetPosition((int) (liftHeight*(5*robot.COUNTS_PER_INCH)));
+            }
 
              /*
             gamepad 2 controls, includes:
@@ -102,8 +117,6 @@ public class TestTele extends LinearOpMode {
             robot.backRight.setPower(backRightPower);
             robot.rightIntake.setPower(rightIntakePower);
             robot.leftIntake.setPower(leftIntakePower);
-
-
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

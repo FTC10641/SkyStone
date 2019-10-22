@@ -22,7 +22,7 @@ public class Robot {
     public DcMotor lift = null;
 
     //setting up variables for servos
-   // public Servo sensorServo = null;
+    public Servo sensorServo = null;
 
     //REV blinkin for the LEDs
 //    public RevBlinkinLedDriver blinkinLedDriver = null;
@@ -56,7 +56,7 @@ public class Robot {
         leftIntake = ahwMap.get(DcMotor.class,"lIntake");
         lift = ahwMap.get(DcMotor.class,"lift");
 
-        //sensorServo = ahwMap.get(Servo.class, "csServo");
+        sensorServo = ahwMap.get(Servo.class, "csServo");
 
 //        blinkinLedDriver = ahwMap.get(RevBlinkinLedDriver.class, "blinkin");
 
@@ -85,6 +85,7 @@ public class Robot {
         rightIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
     }
     public void DForward (double speed, double distance){
