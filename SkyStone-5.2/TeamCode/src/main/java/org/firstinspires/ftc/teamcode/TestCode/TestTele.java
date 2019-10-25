@@ -20,6 +20,9 @@ public class TestTele extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public boolean changed = false;
     public int liftHeight = 0;
+    public int maxLiftHeight = 9;
+    public int minLiftHeight = 0;
+    public double speed = 0.9;
 
 
     public float hsvValues[] = {0F, 0F, 0F};
@@ -32,15 +35,14 @@ public class TestTele extends LinearOpMode {
         robot.initRobot(hardwareMap);
         sensors.initSensors(hardwareMap);
 
-        robot.lift.setTargetPosition(0);
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             //sensors.ReadColor();
 
@@ -52,32 +54,27 @@ public class TestTele extends LinearOpMode {
             Lift
              */
 
-//            if (gamepad1.dpad_up){
-//                robot.lift.setPower(1);
-//            }
-//            else if (gamepad1.dpad_down){
-//                robot.lift.setPower(-1);
-//            }
-//            else {
-//                robot.lift.setPower(0);
-//            }
 
-//            if (gamepad1.dpad_up){
-//                robot.lift.setTargetPosition(5);
-//            }
-//            else {
-//                robot.lift.setPower(0);
-//            }
-
-
-            if (gamepad1.dpad_up){
+            if (gamepad1.dpad_up && !changed && liftHeight < maxLiftHeight) {
                 liftHeight++;
-            }
-            else if (gamepad1.dpad_down){
+                changed = true;
+            } else if (gamepad1.dpad_down && !changed && liftHeight > minLiftHeight) {
                 liftHeight--;
+                changed = true;
             }
-            if (!(robot.lift.getCurrentPosition() == liftHeight*(5*robot.COUNTS_PER_INCH))){
+            else if (gamepad1.dpad_left && !changed && liftHeight > minLiftHeight) {
+            liftHeight = minLiftHeight;
+            changed = true;
+        }
+            else if (!gamepad1.dpad_up && !gamepad1.dpad_down && changed) {
+                changed = false;
+            }
+
+            if (robot.lift.getCurrentPosition() != liftHeight*(5*robot.COUNTS_PER_INCH)){
                 robot.lift.setTargetPosition((int) (liftHeight*(5*robot.COUNTS_PER_INCH)));
+                robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.lift.setPower(speed);
+
             }
 
              /*
@@ -120,6 +117,7 @@ public class TestTele extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Robot", "Lift Height counter: " + liftHeight);
             telemetry.addData("Robot", "left (%.2f), right (%.2f)",
                     backLeftPower, frontLeftPower, frontRightPower, backRightPower);
             telemetry.addData("hue", hsvValues[0]);

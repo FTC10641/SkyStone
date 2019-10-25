@@ -68,10 +68,10 @@ public class MechanumDrive extends LinearOpMode {
 //            }
 
             if (gamepad1.y && !changed) {
-                if (robot.sensorServo.getPosition() <= 1.1) {
-                    robot.sensorServo.setPosition(1);
+                if (robot.sensorServo.getPosition() <= 0.8) {
+                    robot.sensorServo.setPosition(0.9);
                 } else{
-                    robot.sensorServo.setPosition(-1);
+                    robot.sensorServo.setPosition(0.7);
                 }
                 changed = true;
             } else if (!gamepad1.y) {

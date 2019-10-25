@@ -20,7 +20,6 @@ import java.io.File;
  * The Global Positioning Algorithm will not function and will throw an error if this program is not run first
  */
 @TeleOp(name = "Odometry System Calibration", group = "Calibration")
-@Disabled
 public class OdometryCalibration extends LinearOpMode {
     //Drive motors
     DcMotor right_front, right_back, left_front, left_back;
@@ -31,8 +30,8 @@ public class OdometryCalibration extends LinearOpMode {
     BNO055IMU imu;
 
     //Hardware Map Names for drive motors and odometry wheels. THIS WILL CHANGE ON EACH ROBOT, YOU NEED TO UPDATE THESE VALUES ACCORDINGLY
-    String rfName = "rightF", rbName = "rightB", lfName = "leftF", lbName = "leftB";
-    String verticalLeftEncoderName = rbName, verticalRightEncoderName = lfName, horizontalEncoderName = rfName; //no names yet cause gei
+    String frontRight = "rightF", backRight = "rightB", frontLeft = "leftF", backLeft = "leftB";
+    String verticalLeftEncoderName = backRight, verticalRightEncoderName = frontLeft, horizontalEncoderName = frontRight;
 
     final double PIVOT_SPEED = 0.5;
 
@@ -50,7 +49,7 @@ public class OdometryCalibration extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //Initialize hardware map values. PLEASE UPDATE THESE VALUES TO MATCH YOUR CONFIGURATION
-        initHardwareMap(rfName, rbName, lfName, lbName, verticalLeftEncoderName, verticalRightEncoderName, horizontalEncoderName);
+        initHardwareMap(frontRight, backRight, frontLeft, backLeft, verticalLeftEncoderName, verticalRightEncoderName, horizontalEncoderName);
 
         //Initialize IMU hardware map value. PLEASE UPDATE THIS VALUE TO MATCH YOUR CONFIGURATION
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -135,11 +134,11 @@ public class OdometryCalibration extends LinearOpMode {
         }
     }
 
-    private void initHardwareMap(String rfName, String rbName, String lfName, String lbName, String vlEncoderName, String vrEncoderName, String hEncoderName){
-        right_front = hardwareMap.dcMotor.get(rfName);
-        right_back = hardwareMap.dcMotor.get(rbName);
-        left_front = hardwareMap.dcMotor.get(lfName);
-        left_back = hardwareMap.dcMotor.get(lbName);
+    private void initHardwareMap(String frontRight, String backRight, String frontLeft, String backLeft, String vlEncoderName, String vrEncoderName, String hEncoderName){
+        right_front = hardwareMap.dcMotor.get(frontRight);
+        right_back = hardwareMap.dcMotor.get(backRight);
+        left_front = hardwareMap.dcMotor.get(frontLeft);
+        left_back = hardwareMap.dcMotor.get(backLeft);
 
         verticalLeft = hardwareMap.dcMotor.get(vlEncoderName);
         verticalRight = hardwareMap.dcMotor.get(vrEncoderName);
@@ -169,7 +168,6 @@ public class OdometryCalibration extends LinearOpMode {
         left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        left_front.setDirection(DcMotorSimple.Direction.REVERSE);
         right_front.setDirection(DcMotorSimple.Direction.REVERSE);
         right_back.setDirection(DcMotorSimple.Direction.REVERSE);
 
