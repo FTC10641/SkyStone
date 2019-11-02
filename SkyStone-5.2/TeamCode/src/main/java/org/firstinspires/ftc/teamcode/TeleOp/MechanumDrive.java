@@ -22,6 +22,7 @@ public class MechanumDrive extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private boolean changed = false;
+    private boolean changed2 = false;
 
     public float hsvValues[] = {0F, 0F, 0F};
 
@@ -56,16 +57,16 @@ public class MechanumDrive extends LinearOpMode {
             Drive Train
             Lift
              */
-//            if (RightTrigger()) {
-//                robot.rightIntake.setPower(-1);
-//                robot.leftIntake.setPower(1);
-//            } else if (LeftTrigger()) {
-//                robot.rightIntake.setPower(1);
-//                robot.leftIntake.setPower(-1);
-//            } else {
-//                robot.leftIntake.setPower(0);
-//                robot.rightIntake.setPower(0);
-//            }
+            if (RightTrigger()) {
+                robot.rightIntake.setPower(-1);
+                robot.leftIntake.setPower(1);
+            } else if (LeftTrigger()) {
+                robot.rightIntake.setPower(1);
+                robot.leftIntake.setPower(-1);
+            } else {
+                robot.leftIntake.setPower(0);
+                robot.rightIntake.setPower(0);
+            }
 
             if (gamepad1.y && !changed) {
                 if (robot.sensorServo.getPosition() <= 0.8) {
@@ -77,6 +78,18 @@ public class MechanumDrive extends LinearOpMode {
             } else if (!gamepad1.y) {
                 changed = false;
             }
+
+            if (gamepad1.a && !changed2) {
+                if (robot.sensorServo.getPosition() <= 0.8) {
+                    robot.sensorServo.setPosition(0.9);
+                } else{
+                    robot.sensorServo.setPosition(0);
+                }
+                changed2 = true;
+            } else if (!gamepad1.a) {
+                changed2 = false;
+            }
+
 //
 //            if (gamepad1.y) {
 //                robot.Up(1,10);
@@ -111,8 +124,8 @@ public class MechanumDrive extends LinearOpMode {
 //            }
 
             // Setup a variable for each drive wheel to save power level for telemetry
-            double rightIntakePower;
-            double leftIntakePower;
+//            double rightIntakePower;
+//            double leftIntakePower;
             double frontRightPower;
             double backRightPower;
             double frontLeftPower;
@@ -127,12 +140,12 @@ public class MechanumDrive extends LinearOpMode {
             backLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
             backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
             frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
-            rightIntakePower = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger,-1.0,1.0); //controls for the Intake motors
-            leftIntakePower = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger, -1.0, 1.0);
+//            rightIntakePower = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger,-1.0,1.0); //controls for the Intake motors
+//            leftIntakePower = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger, -1.0, 1.0);
+//
 
-
-            rightIntakePower = (float) scaleInput(rightIntakePower);
-            leftIntakePower = (float) scaleInput(leftIntakePower);
+//            rightIntakePower = (float) scaleInput(rightIntakePower);
+//            leftIntakePower = (float) scaleInput(leftIntakePower);
             frontLeftPower = (float) scaleInput(frontLeftPower);
             backLeftPower = (float) scaleInput(backLeftPower);
             frontRightPower = (float) scaleInput(frontRightPower);
@@ -142,8 +155,8 @@ public class MechanumDrive extends LinearOpMode {
             robot.backLeft.setPower(backLeftPower);
             robot.frontRight.setPower(frontRightPower);
             robot.backRight.setPower(backRightPower);
-            robot.rightIntake.setPower(rightIntakePower);
-            robot.leftIntake.setPower(leftIntakePower);
+//            robot.rightIntake.setPower(rightIntakePower);
+//            robot.leftIntake.setPower(leftIntakePower);
 
 
 
@@ -189,13 +202,13 @@ public class MechanumDrive extends LinearOpMode {
     }
 
     //so trigger grazing doesn't activate the intake
-//    boolean RightTrigger() {
-//        if (gamepad1.right_trigger >= 0.1) {
-//            return(true); }
-//        else return(false); }
-//
-//    boolean LeftTrigger() {
-//        if (gamepad1.left_trigger >= 0.1) {
-//            return(true); }
-//        else return(false); }
+    boolean RightTrigger() {
+        if (gamepad1.right_trigger >= 0.1) {
+            return(true); }
+        else return(false); }
+
+    boolean LeftTrigger() {
+        if (gamepad1.left_trigger >= 0.1) {
+            return(true); }
+        else return(false); }
 }
