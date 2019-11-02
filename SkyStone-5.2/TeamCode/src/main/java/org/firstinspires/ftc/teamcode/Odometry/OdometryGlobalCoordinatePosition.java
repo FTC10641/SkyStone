@@ -12,8 +12,9 @@ import java.io.File;
  */
 public class OdometryGlobalCoordinatePosition implements Runnable{
     //Odometry wheels
-    private DcMotor verticalEncoderLeft, verticalEncoderRight, horizontalEncoder;
-
+    private DcMotor verticalEncoderLeft;
+    private DcMotor verticalEncoderRight;
+    private DcMotor horizontalEncoder;
     //Thead run condition
     private boolean isRunning = true;
 
@@ -108,8 +109,8 @@ public class OdometryGlobalCoordinatePosition implements Runnable{
     /**
      * Stops the position update thread
      */
-    public void stop(){ isRunning = false; }
 
+    public void stop(){ isRunning = false; }
     public void reverseLeftEncoder(){
         if(verticalLeftEncoderPositionMultiplier == 1){
             verticalLeftEncoderPositionMultiplier = -1;

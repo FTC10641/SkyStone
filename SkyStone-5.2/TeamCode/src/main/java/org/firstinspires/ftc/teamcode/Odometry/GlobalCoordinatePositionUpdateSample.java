@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Odometry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /**
  * Created by Sarthak on 6/1/2019.
@@ -38,7 +39,7 @@ public class GlobalCoordinatePositionUpdateSample extends LinearOpMode {
         such that when the verticalLeft and verticalRight encoders spin forward, they return positive values, and when the
         horizontal encoder travels to the right, it returns positive value
         */
-//        verticalLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        verticalLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 //        verticalRight.setDirection(DcMotorSimple.Direction.REVERSE);
 //        horizontal.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -68,9 +69,11 @@ public class GlobalCoordinatePositionUpdateSample extends LinearOpMode {
             telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
             telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
             telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
+
             telemetry.addData("Vertical Left Encoder Position", verticalLeft.getCurrentPosition());
             telemetry.addData("Vertical right Encoder Position", verticalRight.getCurrentPosition());
             telemetry.addData("Horizontal Encoder Position", horizontal.getCurrentPosition());
+
             telemetry.addData("Thread Active", positionThread.isAlive());
             telemetry.update();
         }
