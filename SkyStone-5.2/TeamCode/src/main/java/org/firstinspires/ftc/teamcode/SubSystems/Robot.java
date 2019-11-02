@@ -23,6 +23,7 @@ public class Robot {
 
     //setting up variables for servos
     public Servo sensorServo = null;
+    public Servo blockGrabber = null;
 
     //REV blinkin for the LEDs
 //    public RevBlinkinLedDriver blinkinLedDriver = null;
@@ -57,6 +58,7 @@ public class Robot {
         lift = ahwMap.get(DcMotor.class,"lift");
 
         sensorServo = ahwMap.get(Servo.class, "csServo");
+        blockGrabber= ahwMap.get(Servo.class, "grabber");
 
 //        blinkinLedDriver = ahwMap.get(RevBlinkinLedDriver.class, "blinkin");
 
