@@ -75,53 +75,15 @@ public class MechanumDrive extends LinearOpMode {
                     robot.sensorServo.setPosition(0.7);
                 }
                 changed = true;
-            } else if (!gamepad1.y) {
+            } else if (!gamepad1.y && !gamepad2.a) {
                 changed = false;
             }
 
-            if (gamepad1.a && !changed2) {
-                if (robot.sensorServo.getPosition() <= 0.8) {
-                    robot.sensorServo.setPosition(0.9);
-                } else{
-                    robot.sensorServo.setPosition(0);
-                }
-                changed2 = true;
-            } else if (!gamepad1.a) {
-                changed2 = false;
+            if(gamepad2.a && changed == false) {
+                robot.Retract(0,0.9, 0);
+            } else if(!gamepad2.a && !gamepad1.y) {
+                changed = false;
             }
-
-//
-//            if (gamepad1.y) {
-//                robot.Up(1,10);
-//            }
-//            else if (gamepad1.a){
-//                robot.Down(1,10);
-//            }
-//            else {
-//                robot.lift.setPower(0);
-//                robot.Kill();
-//            }
-
-             /*
-            gamepad 2 controls, includes:
-            LED indicators
-             */
-//             if (gamepad2.y){
-//                 robot.blinkinLedDriver.setPattern(humanIndicator1);
-//                 telemetry.addLine("Bot Hungry Boi");
-//             }
-//             else {
-//                 robot.blinkinLedDriver.setPattern(off);
-//             }
-
-
-//            if (sensors.blue()){
-//                telemetry.addLine("bruh that's pretty blue");
-//            }
-//
-//            if (sensors.red()) {
-//                telemetry.addLine("really, red, that's pretty rad ");
-//            }
 
             // Setup a variable for each drive wheel to save power level for telemetry
 //            double rightIntakePower;
@@ -157,7 +119,6 @@ public class MechanumDrive extends LinearOpMode {
             robot.backRight.setPower(backRightPower);
 //            robot.rightIntake.setPower(rightIntakePower);
 //            robot.leftIntake.setPower(leftIntakePower);
-
 
 
             // Show the elapsed game time and wheel power.
