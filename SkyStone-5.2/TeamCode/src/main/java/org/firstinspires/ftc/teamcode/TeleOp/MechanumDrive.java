@@ -22,7 +22,10 @@ public class MechanumDrive extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private boolean changed = false;
+    private boolean changed1 = false;
     private boolean changed2 = false;
+
+    public float liftPosition = 0;
 
     public float hsvValues[] = {0F, 0F, 0F};
 
@@ -68,20 +71,77 @@ public class MechanumDrive extends LinearOpMode {
                 robot.rightIntake.setPower(0);
             }
 
+            //block grabber this works bt checking if y button is pressed and if toggle is false
             if (gamepad1.y && !changed) {
-                if (robot.sensorServo.getPosition() <= 0.8) {
-                    robot.sensorServo.setPosition(0.9);
+                //if that be the case, then we check for position if it's smaller than 0.8
+                if (robot.blockGrabber.getPosition() <= 0.8) {
+                    //set the servor position to 0.9
+                    robot.blockGrabber.setPosition(0.9);
                 } else{
-                    robot.sensorServo.setPosition(0.7);
+                    //if it is bigger than 0.8 then we set it to 0.7
+                    robot.blockGrabber.setPosition(0.7);
                 }
+                //activate toggle
                 changed = true;
+                //if no buttons are pressed and toggle is activated
             } else if (!gamepad1.y && !gamepad2.a) {
+                //reset changed variable deactivating toggle
                 changed = false;
             }
 
-            if(gamepad2.a && changed == false) {
+            //lift the lift
+            //if dpad up is activated and lift position is below the threshold and toggle is off
+            if(gamepad1.dpad_up && liftPosition <= 5 && changed2) {
+                //run method Up with speed of 0.9 and a target position that is 1 greater that current position
+                robot.Up(0.9, liftPosition + 1);
+                //increase liftPosition by one
+                liftPosition++;
+                //activate toggle
+                changed2 = false;
+                //if dpad down is activate and lift position is greater than the threshold and toggle is off
+            }else if(gamepad1.dpad_up && liftPosition >= 0 && changed2) {
+                //run Down method, speed of 0.9 and target be one less than position
+                robot.Down(0.9, liftPosition - 1);
+                //decrease liftPosition by one
+                liftPosition--;
+                //activate toggle
+                changed2 = false;
+                //if toggle be active and neither dpad is pressed
+            }else if(!gamepad1.dpad_up && !gamepad1.dpad_down && !changed2) {
+                //deactivate toggle
+                changed2 = true;
+            }
+
+            //platform grabber
+            //if x button is pressed and toggle is off
+            if(gamepad1.x && changed1) {
+                //if foundationGrabber position is greater than 0.5
+                if(robot.foundationGrabber.getPosition() >= 0.5) {
+                    //set position to 0
+                    robot.foundationGrabber.setPosition(0);
+                }else{
+                    //set position to 1 if it is not greater than 0.5
+                    robot.foundationGrabber.setPosition(1);
+                }
+                //activate toggle
+                changed1 = false;
+                //if button is not pressed and toggle be activated
+            }else if(!gamepad1.x && !changed1) {
+                //deactivate toggle
+                changed1 = true;
+            }
+
+            //reset claw and lift
+            //if a is pressed and toggle is off
+            if(gamepad2.a && !changed) {
+                //run Metod Retract with pullback = 0, speed = 0.9, and distance = 0
                 robot.Retract(0,0.9, 0);
-            } else if(!gamepad2.a && !gamepad1.y) {
+                //since this method affects the lift, reset liftPosition
+                liftPosition = 0;
+                //activate toggle
+                changed = true;
+                //if neither a nor y is pressed, turn off toggle
+            } else if(!gamepad2.a && !gamepad1.y && changed) {
                 changed = false;
             }
 
