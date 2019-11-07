@@ -20,10 +20,11 @@ public class Robot {
     public DcMotor rightIntake = null;
     public DcMotor leftIntake = null;
     public DcMotor lift = null;
+    public DcMotor liftSlide = null;
 
     //setting up variables for servos
-    public Servo sensorServo = null;
     public Servo blockGrabber = null;
+    public Servo foundationGrabber = null;
 
     //REV blinkin for the LEDs
 //    public RevBlinkinLedDriver blinkinLedDriver = null;
@@ -38,6 +39,12 @@ public class Robot {
     public static final double WHEEL_DIAMETER_INCHES = 1.10236;     // For figuring circumference
     public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    public static final double COUNTS_PER_MOTOR_REV1 =  1478.4 ;    // eg: Andy Mark Motor Encoder
+    public static final double DRIVE_GEAR_REDUCTION1 = 1;
+    public static final double WHEEL_DIAMETER_INCHES1 = 1.10236;     // For figuring circumference
+    public static final double COUNTS_PER_INCH1 = (COUNTS_PER_MOTOR_REV1 * DRIVE_GEAR_REDUCTION1) /
+            (WHEEL_DIAMETER_INCHES1 * 3.1415);
 
     HardwareMap hwMap = null;
 
@@ -56,9 +63,10 @@ public class Robot {
         rightIntake = ahwMap.get(DcMotor.class,"rIntake");
         leftIntake = ahwMap.get(DcMotor.class,"lIntake");
         lift = ahwMap.get(DcMotor.class,"lift");
+        liftSlide = ahwMap.get(DcMotor.class,"liftSlide");
 
-        sensorServo = ahwMap.get(Servo.class, "csServo");
-        blockGrabber= ahwMap.get(Servo.class, "grabber");
+        blockGrabber = ahwMap.get(Servo.class, "csServo");
+        foundationGrabber= ahwMap.get(Servo.class, "grabber");
 
 //        blinkinLedDriver = ahwMap.get(RevBlinkinLedDriver.class, "blinkin");
 
@@ -87,6 +95,7 @@ public class Robot {
         rightIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
     }
@@ -120,12 +129,26 @@ public class Robot {
 
         lift.setPower(-speed);
     }
+
+    public void Retract(double pullBack, double speed, double distance) {
+        blockGrabber.setPosition(0.7);
+
+        liftSlide.setTargetPosition((int) (pullBack * COUNTS_PER_INCH1));
+        liftSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftSlide.setPower(-speed);
+
+        lift.setTargetPosition((int) (distance * COUNTS_PER_INCH));
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setPower(-speed);
+    }
+
     public void Kill(){
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
 
