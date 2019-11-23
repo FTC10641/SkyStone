@@ -7,6 +7,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 //import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -84,7 +85,7 @@ public class MechanumDrive extends LinearOpMode {
                 //activate toggle
                 changed = true;
                 //if no buttons are pressed and toggle is activated
-            } else if (!gamepad1.y && !gamepad2.a) {
+            } else if (!gamepad1.a && !gamepad1.y && !gamepad1.b && changed) {
                 //reset changed variable deactivating toggle
                 changed = false;
             }
@@ -133,7 +134,7 @@ public class MechanumDrive extends LinearOpMode {
 
             //reset claw and lift
             //if a is pressed and toggle is off
-            if(gamepad2.a && !changed) {
+            if(gamepad1.a && !changed) {
                 //run Metod Retract with pullback = 0, speed = 0.9, and distance = 0
                 robot.Retract(0,0.9, 0);
                 //since this method affects the lift, reset liftPosition
@@ -141,7 +142,15 @@ public class MechanumDrive extends LinearOpMode {
                 //activate toggle
                 changed = true;
                 //if neither a nor y is pressed, turn off toggle
-            } else if(!gamepad2.a && !gamepad1.y && changed) {
+            } else if(!gamepad1.a && !gamepad1.y && !gamepad1.b && changed) {
+                changed = false;
+            }
+
+            if(gamepad1.b &&!changed) {
+                robot.Grab( 10,1, 1,0.5,0);
+                liftPosition = 0;
+                changed = !changed;
+            }else if(!gamepad1.a && !gamepad1.y && !gamepad1.b && changed) {
                 changed = false;
             }
 
