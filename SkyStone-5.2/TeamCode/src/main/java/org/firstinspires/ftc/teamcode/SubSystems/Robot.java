@@ -7,8 +7,11 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 //import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Robot {
 
@@ -25,6 +28,10 @@ public class Robot {
     //setting up variables for servos
     public Servo blockGrabber = null;
     public Servo foundationGrabber = null;
+
+    //limitI --> lift limit switch, limitII --> block detector
+    public DigitalChannel limitI = null;
+    public DigitalChannel limitII = null;
 
     //REV blinkin for the LEDs
 //    public RevBlinkinLedDriver blinkinLedDriver = null;
@@ -67,6 +74,9 @@ public class Robot {
 
         blockGrabber = ahwMap.get(Servo.class, "csServo");
         foundationGrabber= ahwMap.get(Servo.class, "grabber");
+
+        limitI = ahwMap.get(DigitalChannel.class, "limitI");
+        limitII = ahwMap.get(DigitalChannel.class, "limitII");
 
 //        blinkinLedDriver = ahwMap.get(RevBlinkinLedDriver.class, "blinkin");
 
@@ -141,6 +151,53 @@ public class Robot {
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(-speed);
     }
+
+    enum state{
+        PULLUP,
+        GRAB,
+        PICKUP
+    };
+
+    public void Grab(double extended, double speed, double avoidanceHeight, double grabHeight, double pickupHeight) {
+        state myVar = state.PULLUP;
+        for (int i = 0; i < 4; i++){
+            switch (myVar) {
+                case PULLUP:
+                    blockGrabber.setPosition(0.7);
+                    lift.setTargetPosition((int) (avoidanceHeight * COUNTS_PER_INCH));
+                    lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    lift.setPower(speed);
+                    leftIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    while (limitII.getState() == false) {
+                        rightIntake.setPower(-1);
+                        leftIntake.setPower(1);
+                    }
+                    myVar = state.GRAB;
+                    break;
+                case GRAB:
+                    lift.setTargetPosition((int) (grabHeight * COUNTS_PER_INCH));
+                    lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    lift.setPower(speed);
+                    myVar = state.PICKUP;
+
+                    blockGrabber.setPosition(0.9);
+                    myVar = state.PICKUP;
+                    break;
+                case PICKUP:
+                    liftSlide.setTargetPosition((int) (extended * COUNTS_PER_INCH1));
+                    liftSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    liftSlide.setPower(speed / 1.5);
+
+                    lift.setTargetPosition((int) (pickupHeight * COUNTS_PER_INCH));
+                    lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    lift.setPower(speed);
+                    break;
+            }
+            //Skylar, have a nice day! Elizabeth, DON'T TOUCH THIS CODE!
+        }
+    }
+
+
 
     public void Kill(){
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
