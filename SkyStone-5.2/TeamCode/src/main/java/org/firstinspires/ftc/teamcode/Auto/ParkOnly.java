@@ -19,7 +19,7 @@ public class ParkOnly extends OpMode {
     Sensors sensors = new Sensors();
 
     enum State {
-        Park, StrafeToPark, Turn, DummyCase
+        Park, StrafeToPark, Turn, Stop, Forward, DummyCase
 
     }
 
@@ -47,11 +47,24 @@ public class ParkOnly extends OpMode {
 
         switch (state){
             case Park:
-                robot.Forward(1,36);
-                if (robot.DriveDone(34)) {
-                    robot.Death();
+                robot.Forward(.5,5);
+                if (robot.DriveDone(5)) {
+                    //state = State.StrafeToPark;
+                    state = State.Stop;
                     Reset();
                 }
+                break;
+/*
+            case StrafeToPark:
+                robot.StrafeLeft(1, 5);
+                if (robot.StrafeDriveDone(5)) {
+                    state = State.Stop;
+                    Reset();
+                }
+                break;*/
+
+            case Stop:
+                robot.Death();
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Sensors;
 import java.util.Locale;
 
 @Autonomous (name = "Encoder Test")
-
+//@Disabled
 public class EncoderTest extends OpMode {
     Robot robot = new Robot();
     Sensors sensors = new Sensors();
@@ -50,13 +51,6 @@ public class EncoderTest extends OpMode {
 
         switch (state){
             case Forward:
-                robot.NewForward(.75,-3559,-3559,0);
-                if (robot.NewDriveDone(-3559,-3559)) {
-                    robot.Kill();
-                    time.reset();
-                }
-                break;
-
         }
     }
     String formatAngle (AngleUnit angleUnit,double angle){
