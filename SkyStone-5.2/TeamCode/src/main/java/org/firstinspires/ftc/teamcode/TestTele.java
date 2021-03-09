@@ -1,16 +1,19 @@
 package org.firstinspires.ftc.teamcode.TestCode;
 
-//import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.SubSystems.*;
+import org.firstinspires.ftc.teamcode.SubSystems.Robot;
+import org.firstinspires.ftc.teamcode.SubSystems.Sensors;
 
 
 @TeleOp(name="Testing", group="Linear Opmode")
+@Disabled
 public class TestTele extends LinearOpMode {
 
     Robot robot = new Robot();
@@ -19,10 +22,16 @@ public class TestTele extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public boolean changed = false;
-    public int liftHeight = 0;
-    public int maxLiftHeight = 9;
-    public int minLiftHeight = 0;
+    public double liftHeight = 0;
+    public int maxLiftHeight = 7;
+    public double minLiftHeight = -.25;
     public double speed = 0.9;
+
+    public double maxCarriage = 2.75;
+    public int minCarriage = 0;
+    public boolean changed2 = false;
+    public double carriagePosition = 0;
+    public double speed2 = 1;
 
 
     public float hsvValues[] = {0F, 0F, 0F};
@@ -39,8 +48,6 @@ public class TestTele extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
@@ -53,7 +60,6 @@ public class TestTele extends LinearOpMode {
             Drive Train
             Lift
              */
-
 
             if (gamepad1.dpad_up && !changed && liftHeight < maxLiftHeight) {
                 liftHeight++;
@@ -70,17 +76,13 @@ public class TestTele extends LinearOpMode {
                 changed = false;
             }
 
-            if (robot.lift.getCurrentPosition() != liftHeight*(5*robot.COUNTS_PER_INCH)){
-                robot.lift.setTargetPosition((int) (liftHeight*(5*robot.COUNTS_PER_INCH)));
+            if (robot.lift.getCurrentPosition() != liftHeight*(5*robot.LiftCountsPerInch)){
+                robot.lift.setTargetPosition((int) (liftHeight*(5*robot.LiftCountsPerInch)));
                 robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.lift.setPower(speed);
-
             }
 
-             /*
-            gamepad 2 controls, includes:
-            LED indicators
-             */
+
             double rightIntakePower;
             double leftIntakePower;
             double frontRightPower;
@@ -91,12 +93,12 @@ public class TestTele extends LinearOpMode {
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
             double strafe = -gamepad1.left_stick_x;
-            double drive = gamepad1.left_stick_y;
+            double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
             frontLeftPower = Range.clip(drive + turn - strafe, -1.0, 1.0);
             backLeftPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
-            backRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
-            frontRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
+            backRightPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
+            frontRightPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
             rightIntakePower = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger,-1.0,1.0); //controls for the Intake motors
             leftIntakePower = Range.clip(-gamepad1.right_trigger + gamepad1.left_trigger, -1.0, 1.0);
 
@@ -118,6 +120,9 @@ public class TestTele extends LinearOpMode {
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Robot", "Lift Height counter: " + liftHeight);
+            telemetry.addData("VerticalLeft", robot.verticalLeft.getCurrentPosition());
+            telemetry.addData("VerticalRight", robot.verticalRight.getCurrentPosition());
+            telemetry.addData("Horizontal", robot.horizontal.getCurrentPosition());
             telemetry.addData("Robot", "left (%.2f), right (%.2f)",
                     backLeftPower, frontLeftPower, frontRightPower, backRightPower);
             telemetry.addData("hue", hsvValues[0]);
@@ -156,15 +161,4 @@ public class TestTele extends LinearOpMode {
         // return scaled value.
         return dScale;
     }
-
-    //so trigger grazing doesn't activate the intake
-//    boolean RightTrigger() {
-//        if (gamepad1.right_trigger >= 0.1) {
-//            return(true); }
-//        else return(false); }
-//
-//    boolean LeftTrigger() {
-//        if (gamepad1.left_trigger >= 0.1) {
-//            return(true); }
-//        else return(false); }
 }
