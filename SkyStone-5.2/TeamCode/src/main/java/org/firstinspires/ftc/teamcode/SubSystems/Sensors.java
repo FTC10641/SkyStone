@@ -25,7 +25,7 @@ public class Sensors extends Robot {
     public void initSensors(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu = ahwMap.get(BNO055IMU.class, "imu");
         webcamName = ahwMap.get(WebcamName.class, "Webcam 1");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
